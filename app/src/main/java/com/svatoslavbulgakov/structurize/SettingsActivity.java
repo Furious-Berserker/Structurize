@@ -22,8 +22,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import es.dmoral.toasty.Toasty;
-
 public class SettingsActivity extends AppCompatActivity {
 
     private EditText editTextLogin, editTextPassword;
@@ -119,7 +117,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void initSharedPreferences() {
-        sharedPreferences = getSharedPreferences(LoginActivity.APP_USER_DATA, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(SignUpActivity.APP_USER_DATA, Context.MODE_PRIVATE);
     }
 
     private void initButton() {

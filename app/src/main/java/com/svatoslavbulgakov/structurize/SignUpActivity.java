@@ -5,19 +5,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,7 +23,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class LoginActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
     public static final String APP_USER_DATA = "userData";
 
@@ -45,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_sign_up);
         initComponents();
 
         getWindow().setFlags(
@@ -79,14 +76,14 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(LoginActivity.this, "Succses! " + user, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, "Succses! " + user, Toast.LENGTH_SHORT).show();
 
-                            Intent intent = new Intent(LoginActivity.this, CheckActivity.class);
+                            Intent intent = new Intent(SignUpActivity.this, CheckActivity.class);
                             startActivity(intent);
 
                             finish();
                         } else {
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -110,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                 editor.apply();*/
 
                 if (!TextUtils.emailChecker(mail) || !TextUtils.passwordChecker(password, 6)) {
-                    Toast.makeText(LoginActivity.this, "Email/Password Incorrect!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, "Email/Password Incorrect!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 

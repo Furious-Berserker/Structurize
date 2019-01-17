@@ -55,7 +55,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void initSharedPreferences() {
-        sharedPreferences = getSharedPreferences(LoginActivity.APP_USER_DATA, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(SignUpActivity.APP_USER_DATA, Context.MODE_PRIVATE);
     }
 
     private void initButton() {
@@ -69,12 +69,12 @@ public class SignInActivity extends AppCompatActivity {
 
                 if (!(login.equals("") && password.equals(""))) {
 
-                    /*if (sharedPreferences.getString(LoginActivity.APP_PREFERENCES_LOGIN, "§").equals(login) && sharedPreferences.getString(LoginActivity.APP_PREFERENCES_PASSWORD, "§").equals(password)) {
+                    /*if (sharedPreferences.getString(SignUpActivity.APP_PREFERENCES_LOGIN, "§").equals(login) && sharedPreferences.getString(SignUpActivity.APP_PREFERENCES_PASSWORD, "§").equals(password)) {
 
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putBoolean(LoginActivity.APP_PREFERENCES_AUTH_EXIST, true);
-                        editor.putString(LoginActivity.APP_PREFERENCES_LOGIN, login);
-                        editor.putString(LoginActivity.APP_PREFERENCES_PASSWORD, password);
+                        editor.putBoolean(SignUpActivity.APP_PREFERENCES_AUTH_EXIST, true);
+                        editor.putString(SignUpActivity.APP_PREFERENCES_LOGIN, login);
+                        editor.putString(SignUpActivity.APP_PREFERENCES_PASSWORD, password);
                         editor.apply();
 
                         Intent intent = new Intent(SignInActivity.this, MainActivity.class);
@@ -92,7 +92,7 @@ public class SignInActivity extends AppCompatActivity {
         authButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SignInActivity.this, LoginActivity.class);
+                Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
                 startActivity(intent);
             }
         });
