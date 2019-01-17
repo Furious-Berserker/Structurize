@@ -3,9 +3,6 @@ package com.svatoslavbulgakov.structurize;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by svatoslavbulgakov on 13/11/2018.
- */
 
 public class TextUtils {
     public static boolean emailChecker(String text){

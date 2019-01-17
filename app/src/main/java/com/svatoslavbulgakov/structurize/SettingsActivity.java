@@ -1,8 +1,6 @@
 package com.svatoslavbulgakov.structurize;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -28,7 +26,6 @@ public class SettingsActivity extends AppCompatActivity {
     private boolean isEmailIncorrect, isPasswordIncorrect;
     private TextInputLayout textInputLayoutLogin, textInputLayoutPassword;
     private Button exitButton, changeButton;
-    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +36,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void initComponents() {
         initBoolean();
-        initSharedPreferences();
         initToolBar();
         initFloatingActionButton();
         initButton();
@@ -114,10 +110,6 @@ public class SettingsActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void initSharedPreferences() {
-        sharedPreferences = getSharedPreferences(SignUpActivity.APP_USER_DATA, Context.MODE_PRIVATE);
     }
 
     private void initButton() {

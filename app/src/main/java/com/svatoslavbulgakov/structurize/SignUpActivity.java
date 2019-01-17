@@ -1,8 +1,6 @@
 package com.svatoslavbulgakov.structurize;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -21,23 +19,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class SignUpActivity extends AppCompatActivity {
-
-    public static final String APP_USER_DATA = "userData";
-
-    public static final String APP_PREFERENCES_MAIL = "Mail";
-    public static final String APP_PREFERENCES_LOGIN = "Login";
-    public static final String APP_PREFERENCES_PASSWORD = "Password";
-    public static final String APP_PREFERENCES_AUTH_EXIST = "Authorization Exist";
-
     private FirebaseAuth mAuth;
-    private SharedPreferences userData;
     private EditText editTextMail, editTextLogin, editTextPassword;
-    //private TextInputLayout mailInputLayout, loginInputLayout, passwordInputLayout;
     private Button button;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,42 +38,28 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void initComponents() {
-        mAuth = FirebaseAuth.getInstance();
-        initSharedPreferences();
+        this.mAuth = FirebaseAuth.getInstance();
         initToolBar();
         initEditText();
-        //initTextInputLayout();
         initButton();
     }
 
-    private void initSharedPreferences() {
-        userData = getSharedPreferences(APP_USER_DATA, Context.MODE_PRIVATE);
-    }
-
-    /*private void initTextInputLayout() {
-        mailInputLayout = findViewById(R.id.mailInputLayout);
-        loginInputLayout = findViewById(R.id.loginInputLayout);
-        passwordInputLayout = findViewById(R.id.passwordInputLayout);
-    }*/
     private void signUpUser(String email, String password){
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(SignUpActivity.this, "Succses! " + user, Toast.LENGTH_SHORT).show();
-
                             Intent intent = new Intent(SignUpActivity.this, CheckActivity.class);
                             startActivity(intent);
 
                             finish();
                         } else {
-                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+        //check user is already defined
     }
 
     private void initButton() {
@@ -95,16 +67,10 @@ public class SignUpActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String login = editTextLogin.getText().toString();
+                //set login name to firebase
                 String mail = editTextMail.getText().toString();
                 String password = editTextPassword.getText().toString();
-
-                /*SharedPreferences.Editor editor = userData.edit();
-                editor.putString(APP_PREFERENCES_MAIL, mail);
-                editor.putString(APP_PREFERENCES_LOGIN, login);
-                editor.putString(APP_PREFERENCES_PASSWORD, password);
-                editor.apply();*/
 
                 if (!TextUtils.emailChecker(mail) || !TextUtils.passwordChecker(password, 6)) {
                     Toast.makeText(SignUpActivity.this, "Email/Password Incorrect!", Toast.LENGTH_SHORT).show();

@@ -1,14 +1,11 @@
 package com.svatoslavbulgakov.structurize;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,8 +21,6 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-    private SharedPreferences sharedPreferences;
     private Button exitButton;
 
     @Override
@@ -38,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = initToolBar();
         initFloatingActionButton();
         initDrawer(toolbar);
-        initSharedPrefernces();
         initNavigationView();
         initButton();
     }
@@ -59,11 +54,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-
-    private void initSharedPrefernces() {
-        sharedPreferences = getSharedPreferences(SignUpActivity.APP_USER_DATA, Context.MODE_PRIVATE);
-    }
-
     private void initNavigationView() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -75,8 +65,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         TextView textViewName = headerView.findViewById(R.id.nav_header_main_name);
         TextView textViewEmail = headerView.findViewById(R.id.nav_header_main_email);
-        textViewName.setText(sharedPreferences.getString(SignUpActivity.APP_PREFERENCES_LOGIN,""));
-        textViewEmail.setText(sharedPreferences.getString(SignUpActivity.APP_PREFERENCES_MAIL,""));
     }
 
     private void initDrawer(Toolbar toolbar) {
