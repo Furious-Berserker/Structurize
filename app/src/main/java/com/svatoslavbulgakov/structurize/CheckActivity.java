@@ -1,8 +1,6 @@
 package com.svatoslavbulgakov.structurize;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -36,7 +34,7 @@ public class CheckActivity extends AppCompatActivity {
             Intent intent = new Intent(CheckActivity.this, MainActivity.class);
             startActivity(intent);
         } else {
-            Intent intent = new Intent(CheckActivity.this, SignUpActivity.class);
+            Intent intent = new Intent(CheckActivity.this, SignInActivity.class);
             startActivity(intent);
         }
         finish();
