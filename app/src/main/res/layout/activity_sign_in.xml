@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.svatoslavbulgakov.structurize.SignUpActivity">
+    tools:context="com.svatoslavbulgakov.structurize.SignInActivity">
 
-    <include layout="@layout/content_sign_up" />
+    <include layout="@layout/content_sign_in" />
 
     <!--<android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
