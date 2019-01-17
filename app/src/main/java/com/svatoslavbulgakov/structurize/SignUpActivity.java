@@ -68,7 +68,6 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 })
         ;
-        //check user is already defined
     }
 
     private void initButton() {
