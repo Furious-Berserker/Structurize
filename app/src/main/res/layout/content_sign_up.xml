@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/blur_forest_1_small_version"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.svatoslavbulgakov.structurize.SignUpActivity"
+    tools:showIn="@layout/activity_sign_up"><!--image optimaze-->
+
+    <TextView
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Welcome"
+        android:textAllCaps="false"
+        android:textSize="36sp" />
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Here you can log in into your account or create a new one."/>
+
+    <EditText
+        android:id="@+id/signUpEditTextLogin"
+        android:layout_marginTop="50dp"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/edit_text_style"
+        android:hint="Login"
+        android:textAlignment="center"
+        android:textAllCaps="false" />
+
+    <EditText
+        android:id="@+id/signUpEditTextPassword"
+        android:layout_marginTop="30dp"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/edit_text_style"
+        android:inputType="textPassword"
+        android:hint="Password"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/logButton"
+        android:layout_marginTop="30dp"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/button_style"
+        android:text="Login"
+        android:textAllCaps="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:text="or"
+        android:textAllCaps="true"
+        android:textColor="#A9A9A9"
+        android:textSize="14sp"
+        android:textStyle="bold|italic" />
+
+    <Button
+        android:id="@+id/authorizationButton"
+        android:layout_marginTop="10dp"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/button_style"
+        android:text="Register"
+        android:textAllCaps="false" />
+
+</LinearLayout>

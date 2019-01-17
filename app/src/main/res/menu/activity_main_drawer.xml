@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/submenu" android:title="Groups" >
+            <menu>
+                <item android:title="First"/>
+                <item android:title="Second"/>
+            </menu>
+        </item>
+
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_activity_main_drawer_settings"
+            android:icon="@drawable/ic_settings"
+            android:checkable="false"
+            android:title="Tools" />
+        <item
+            android:id="@+id/nav_slideshow"
+            android:icon="@drawable/ic_account_multiple"
+            android:checkable="false"
+            android:title="About us" />
+    </group>
+
+
+</menu>
