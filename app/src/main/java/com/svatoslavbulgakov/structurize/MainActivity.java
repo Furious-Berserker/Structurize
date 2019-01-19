@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = initToolBar();
         initFloatingActionButton();
         initDrawer(toolbar);
-        initNavigationView();
         initButton();
+        initNavigationView();
     }
 
     private void initButton() {
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ImageView imageViewUser = headerView.findViewById(R.id.nav_header_main_image);
         TextView textViewEmail = headerView.findViewById(R.id.nav_header_main_email);
         TextView textViewName = headerView.findViewById(R.id.nav_header_main_name);
+
 
         textViewName.setText(UserData.getUserName());
         textViewEmail.setText(UserData.getUserEmail());

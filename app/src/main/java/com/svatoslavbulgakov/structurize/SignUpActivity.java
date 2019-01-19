@@ -21,11 +21,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class SignUpActivity extends AppCompatActivity {
+
     private FirebaseAuth mAuth;
     private EditText editTextMail, editTextLogin, editTextPassword;
     private Button button;
+    private boolean isEmailIncorrect, isPasswordIncorrect, isLoginIncorrect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +45,16 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void initComponents() {
         this.mAuth = FirebaseAuth.getInstance();
+        initBoolean();
         initToolBar();
         initEditText();
         initButton();
+    }
+
+    private void initBoolean() {
+        isLoginIncorrect = true;
+        isEmailIncorrect = true;
+        isPasswordIncorrect = true;
     }
 
     private void signUpUser(String email, String password){
@@ -52,10 +63,28 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Intent intent = new Intent(SignUpActivity.this, CheckActivity.class);
-                            startActivity(intent);
+                            String name = editTextLogin.getText().toString();
+                            if (!isLoginIncorrect) {
 
-                            finish();
+                                FirebaseUser user = mAuth.getCurrentUser();
+
+                                UserProfileChangeRequest nameProfileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
+
+                                user.updateProfile(nameProfileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful())
+                                            Toast.makeText(SignUpActivity.this, "account created", Toast.LENGTH_SHORT).show();
+                                        else
+                                            Toast.makeText(SignUpActivity.this, "failed!", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                                Intent intent = new Intent(SignUpActivity.this, CheckActivity.class);
+                                startActivity(intent);
+
+                                finish();
+                            }
                         }
                     }
                 })
@@ -65,8 +94,7 @@ public class SignUpActivity extends AppCompatActivity {
                         if(e instanceof FirebaseAuthUserCollisionException)
                             Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                })
-        ;
+                });
     }
 
     private void initButton() {
@@ -74,18 +102,11 @@ public class SignUpActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String login = editTextLogin.getText().toString();
-                //set login name to firebase
                 String mail = editTextMail.getText().toString();
                 String password = editTextPassword.getText().toString();
 
-                if (!TextUtils.emailChecker(mail) || !TextUtils.passwordChecker(password, 6)) {
-                    Toast.makeText(SignUpActivity.this, "Email/Password Incorrect!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                signUpUser(mail, password);
-
+                if (!isLoginIncorrect && !isEmailIncorrect && !isPasswordIncorrect)
+                    signUpUser(mail, password);
             }
         });
     }
@@ -102,8 +123,10 @@ public class SignUpActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String text = editTextMail.getText().toString();
                 if (!(TextUtils.emailChecker(text))) {
+                    isEmailIncorrect = true;
                     editTextMail.setError("Incorrect Mail!");
-                }
+                } else
+                    isEmailIncorrect = false;
             }
 
             @Override
@@ -122,8 +145,10 @@ public class SignUpActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String text = editTextPassword.getText().toString();
                 if (!(TextUtils.passwordChecker(text, 6))) {
-                    editTextPassword.setError("Password");
-                }
+                    isPasswordIncorrect = true;
+                    editTextPassword.setError("incorrect Password ");
+                } else
+                    isPasswordIncorrect = false;
             }
 
             @Override
@@ -132,6 +157,27 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
         editTextLogin = findViewById(R.id.editTextLogin);
+        editTextLogin.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String text = editTextLogin.getText().toString();
+                if (text.isEmpty()){
+                    isLoginIncorrect = true;
+                    editTextLogin.setError("incorrect login");
+                } else
+                    isLoginIncorrect = false;
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
 
