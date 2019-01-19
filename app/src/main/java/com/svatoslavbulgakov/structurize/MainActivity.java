@@ -15,9 +15,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -63,8 +63,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.getBackground().setColorFilter(0x80000000, PorterDuff.Mode.MULTIPLY);
         headerView.getBackground().setColorFilter(0x80000000, PorterDuff.Mode.MULTIPLY);
 
-        TextView textViewName = headerView.findViewById(R.id.nav_header_main_name);
+        ImageView imageViewUser = headerView.findViewById(R.id.nav_header_main_image);
         TextView textViewEmail = headerView.findViewById(R.id.nav_header_main_email);
+        TextView textViewName = headerView.findViewById(R.id.nav_header_main_name);
+
+        textViewName.setText(UserData.getUserName());
+        textViewEmail.setText(UserData.getUserEmail());
     }
 
     private void initDrawer(Toolbar toolbar) {
