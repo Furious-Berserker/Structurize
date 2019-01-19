@@ -16,7 +16,7 @@ public class UserData {
 
         String name = "name";
 
-        if (!user.getDisplayName().isEmpty()){
+        if (user != null && user.getDisplayName() != null && !user.getDisplayName().isEmpty()){
             name = user.getDisplayName();
             return name;
         } else
@@ -28,7 +28,7 @@ public class UserData {
 
         String email = "email";
 
-        if (!user.getEmail().isEmpty()){
+        if (user != null && user.getEmail()!= null &&!user.getEmail().isEmpty()){
             email = user.getEmail();
             return email;
         } else
@@ -40,7 +40,7 @@ public class UserData {
 
         Uri image = Uri.EMPTY;
 
-        if (!Uri.EMPTY.equals(user.getPhotoUrl())){
+        if (user != null && user.getPhotoUrl() != null && !Uri.EMPTY.equals(user.getPhotoUrl())){
             image = user.getPhotoUrl();
             return image;
         } else
