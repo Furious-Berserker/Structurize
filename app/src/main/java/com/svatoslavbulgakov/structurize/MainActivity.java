@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView textViewEmail = headerView.findViewById(R.id.nav_header_main_email);
         TextView textViewName = headerView.findViewById(R.id.nav_header_main_name);
 
-
         textViewName.setText(UserData.getUserName());
         textViewEmail.setText(UserData.getUserEmail());
     }

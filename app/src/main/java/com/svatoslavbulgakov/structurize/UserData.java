@@ -11,39 +11,39 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class UserData {
 
-    public static String getUserName(){
+    public static String getUserName() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        String name = "name";
+        String name;
 
         if (user != null && user.getDisplayName() != null && !user.getDisplayName().isEmpty()){
             name = user.getDisplayName();
             return name;
         } else
-            return name;
+            return "name";
     }
 
     public static String getUserEmail(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        String email = "email";
+        String email;
 
-        if (user != null && user.getEmail()!= null &&!user.getEmail().isEmpty()){
+        if (user != null && user.getEmail() != null && !user.getEmail().isEmpty()){
             email = user.getEmail();
             return email;
         } else
-            return email;
+            return "email";
     }
 
     public static Uri getUserImage(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        Uri image = Uri.EMPTY;
+        Uri image;
 
         if (user != null && user.getPhotoUrl() != null && !Uri.EMPTY.equals(user.getPhotoUrl())){
             image = user.getPhotoUrl();
             return image;
         } else
-            return image;
+            return Uri.EMPTY;
     }
 }

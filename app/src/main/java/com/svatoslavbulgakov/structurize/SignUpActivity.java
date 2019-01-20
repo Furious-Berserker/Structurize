@@ -66,24 +66,25 @@ public class SignUpActivity extends AppCompatActivity {
                             String name = editTextLogin.getText().toString();
                             if (!isLoginIncorrect) {
 
-                                FirebaseUser user = mAuth.getCurrentUser();
+                                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
                                 UserProfileChangeRequest nameProfileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
 
                                 user.updateProfile(nameProfileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful())
+                                        if (task.isSuccessful()) {
+
+                                            Intent intent = new Intent(SignUpActivity.this, CheckActivity.class);
+                                            startActivity(intent);
+
                                             Toast.makeText(SignUpActivity.this, "account created", Toast.LENGTH_SHORT).show();
-                                        else
-                                            Toast.makeText(SignUpActivity.this, "failed!", Toast.LENGTH_SHORT).show();
+
+                                            finish();
+                                        } else
+                                            Toast.makeText(SignUpActivity.this, "Failed to create account!", Toast.LENGTH_SHORT).show();
                                     }
                                 });
-
-                                Intent intent = new Intent(SignUpActivity.this, CheckActivity.class);
-                                startActivity(intent);
-
-                                finish();
                             }
                         }
                     }
