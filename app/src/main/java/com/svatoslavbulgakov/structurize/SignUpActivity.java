@@ -56,7 +56,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void initCustomLayout() {
         customLayout = findViewById(R.id.signUpCustomLayout);
-        Picasso.with(this).load(R.drawable.forest).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(customLayout);
+        Picasso.with(this).load(R.drawable.forest).into(customLayout);
     }
 
     private void initBoolean() {

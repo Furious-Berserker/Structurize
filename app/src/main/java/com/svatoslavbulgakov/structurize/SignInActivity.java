@@ -47,7 +47,7 @@ public class SignInActivity extends AppCompatActivity {
 
     private void initLinearLayout() {
         customLayout = findViewById(R.id.signInCustomLayout);
-        Picasso.with(this).load(R.drawable.forest).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(customLayout);
+        Picasso.with(this).load(R.drawable.forest).into(customLayout);
     }
 
     private void initEditText() {
