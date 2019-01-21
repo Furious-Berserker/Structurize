@@ -23,12 +23,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 
 public class SignUpActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private CustomLayout customLayout;
     private EditText editTextMail, editTextLogin, editTextPassword;
-    private Button button;
+    private Button createAccountButton;
     private boolean isEmailIncorrect, isPasswordIncorrect, isLoginIncorrect;
 
     @Override
@@ -36,7 +39,6 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         initComponents();
-
         getWindow().setFlags(
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
@@ -45,10 +47,16 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void initComponents() {
         this.mAuth = FirebaseAuth.getInstance();
+        initCustomLayout();
         initBoolean();
         initToolBar();
         initEditText();
         initButton();
+    }
+
+    private void initCustomLayout() {
+        customLayout = findViewById(R.id.signUpCustomLayout);
+        Picasso.with(this).load(R.drawable.forest).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(customLayout);
     }
 
     private void initBoolean() {
@@ -66,7 +74,7 @@ public class SignUpActivity extends AppCompatActivity {
                             String name = editTextLogin.getText().toString();
                             if (!isLoginIncorrect) {
 
-                                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
                                 UserProfileChangeRequest nameProfileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
 
@@ -99,8 +107,8 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void initButton() {
-        button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+        createAccountButton = findViewById(R.id.button);
+        createAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String mail = editTextMail.getText().toString();

@@ -14,12 +14,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 
 import es.dmoral.toasty.Toasty;
 
 public class SignInActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private CustomLayout customLayout;
     private Button logButton, authButton;
     private EditText editTextLogin, editTextPassword;
 
@@ -27,19 +30,24 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        initComponents();
         getWindow().setFlags(
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         );
-        initComponents();
-
     }
 
     private void initComponents() {
         this.mAuth = FirebaseAuth.getInstance();
+        initLinearLayout();
         initToolBar();
         initEditText();
         initButton();
+    }
+
+    private void initLinearLayout() {
+        customLayout = findViewById(R.id.signInCustomLayout);
+        Picasso.with(this).load(R.drawable.forest).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(customLayout);
     }
 
     private void initEditText() {
