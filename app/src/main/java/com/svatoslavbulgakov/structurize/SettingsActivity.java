@@ -1,6 +1,7 @@
 package com.svatoslavbulgakov.structurize;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -19,10 +20,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SettingsActivity extends AppCompatActivity {
+    public static final int REQUEST_AVATAR = 1;
 
     private EditText editTextLogin, editTextPassword;
+    private CircleImageView userImage;
     private boolean isEmailIncorrect, isPasswordIncorrect;
     private TextInputLayout textInputLayoutLogin, textInputLayoutPassword;
     private Button exitButton, changeButton;
@@ -41,6 +48,19 @@ public class SettingsActivity extends AppCompatActivity {
         initButton();
         initTextInputLayout();
         initEditText();
+        initCircleImageView();
+    }
+
+    private void initCircleImageView() {
+        userImage = findViewById(R.id.content_settings_profile_image);
+        userImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, REQUEST_AVATAR);
+            }
+        });
     }
 
     private void initBoolean() {
@@ -173,4 +193,26 @@ public class SettingsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK){
+            if (requestCode == REQUEST_AVATAR){
+                final Uri uri = data.getData();
+
+                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                UserProfileChangeRequest photoProfileChange = new UserProfileChangeRequest.Builder().setPhotoUri(uri).build();
+                user.updateProfile(photoProfileChange).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Picasso.with(SettingsActivity.this).load(uri).into(userImage);
+                        }
+                        else
+                            Toast.makeText(SettingsActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }
+    }
 }
