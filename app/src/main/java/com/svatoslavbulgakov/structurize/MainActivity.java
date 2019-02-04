@@ -104,8 +104,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void setImage(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Uri photoUrl = user.getPhotoUrl();
-        if (photoUrl != null)
-            Picasso.with(this).load(photoUrl).into(imageViewUser);
+        Picasso.with(this).load(photoUrl).into(imageViewUser);
+        if (photoUrl != null) {
+            Picasso.Builder builder = new Picasso.Builder(this);
+            builder.listener(new Picasso.Listener() {
+                @Override
+                public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
+                    exception.printStackTrace();
+                    Toast.makeText(MainActivity.this, exception.getMessage(), Toast.LENGTH_LONG).show();
+                    Log.d("ds", "onImageLoadFailed: "+exception.getCause());
+                }
+            });
+            builder.build().load(photoUrl).resize(100, 100).error(R.drawable.geometry_header_1).into(imageViewUser);
+        }
     }
 
     private void initDrawer(Toolbar toolbar) {
@@ -114,7 +125,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
     }
 
     private void initFloatingActionButton() {

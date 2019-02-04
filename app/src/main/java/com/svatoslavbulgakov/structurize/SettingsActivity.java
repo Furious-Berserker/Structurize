@@ -28,10 +28,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class SettingsActivity extends AppCompatActivity {
     public static final int REQUEST_AVATAR = 1;
 
-    private EditText editTextLogin, editTextPassword;
+    private EditText editTextLogin, editTextNewLogin, editTextPassword, editTextNewPassword;
     private CircleImageView userImage;
     private boolean isEmailIncorrect, isPasswordIncorrect;
-    private TextInputLayout textInputLayoutLogin, textInputLayoutPassword;
+    private TextInputLayout textInputLayoutLogin, textInputLayoutNewLogin, textInputLayoutPassword,  textInputLayoutNewPassword;
     private Button exitButton, changeButton;
 
     @Override
@@ -70,7 +70,10 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void initTextInputLayout() {
         textInputLayoutLogin = findViewById(R.id.textInputLayoutLogin);
+        textInputLayoutNewLogin = findViewById(R.id.textInputLayoutNewLogin);
+
         textInputLayoutPassword = findViewById(R.id.textInputLayoutPassword);
+        textInputLayoutNewPassword = findViewById(R.id.textInputLayoutNewPassword);
     }
 
     private void initEditText() {
@@ -102,6 +105,25 @@ public class SettingsActivity extends AppCompatActivity {
 
             }
         });
+
+        editTextNewLogin = findViewById(R.id.editTextNewLogin);
+        editTextNewLogin.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         editTextPassword = findViewById(R.id.editTextChangePassword);
         editTextPassword.addTextChangedListener(new TextWatcher() {
             @Override
@@ -123,6 +145,24 @@ public class SettingsActivity extends AppCompatActivity {
                     isPasswordIncorrect = true;
                     textInputLayoutPassword.setError("incorrect password");
                 }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        editTextNewPassword = findViewById(R.id.editTextNewPassword);
+        editTextNewPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
             }
 
             @Override
@@ -206,7 +246,7 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Picasso.with(SettingsActivity.this).load(uri).into(userImage);
+                            Picasso.with(SettingsActivity.this).load(uri).resize(80, 80).into(userImage);
                         }
                         else
                             Toast.makeText(SettingsActivity.this, "Failed", Toast.LENGTH_SHORT).show();
