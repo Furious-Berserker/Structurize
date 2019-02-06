@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
                     exception.printStackTrace();
                     Toast.makeText(MainActivity.this, exception.getMessage(), Toast.LENGTH_LONG).show();
-                    Log.d("ds", "onImageLoadFailed: "+exception.getCause());
+                    Log.d("================ds", "onImageLoadFailed: "+exception.getMessage());
                 }
             });
             builder.build().load(photoUrl).resize(100, 100).error(R.drawable.geometry_header_1).into(imageViewUser);

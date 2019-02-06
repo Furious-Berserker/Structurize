@@ -26,4 +26,8 @@
     <style name="navigation_view_style">
         <item name="android:textColorSecondary">#FFB300</item>
     </style>
+
+    <style name="ButtonTheme" parent="android:Widget.Button">
+        <item name="android:background">@drawable/button_theme_transparent</item>
+    </style>
 </resources>

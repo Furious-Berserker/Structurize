@@ -1,88 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.svatoslavbulgakov.structurize.SettingsActivity"
-    tools:showIn="@layout/activity_settings">
+    android:layout_height="wrap_content"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/content_settings_profile_image"
-        android:layout_width="76dp"
-        android:layout_height="76dp"
-        android:layout_marginLeft="25dp"
-        android:src="@drawable/ic_launcher_background"
-        app:civ_border_color="#FF000000"/>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayoutLogin"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/editTextChangeLogin"
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:showDividers="middle"
+                android:divider="@drawable/separator">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/content_settings_profile_image"
+                        android:layout_width="76dp"
+                        android:layout_height="76dp"
+                        android:layout_margin="15dp"
+                        android:src="@drawable/ic_launcher_background"
+                        app:civ_border_color="#FF000000"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="55dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/app_name"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/app_name"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/changeButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/ButtonTheme"
+                    android:text="Change"
+                    android:gravity="start|center_vertical"
+                    android:paddingLeft="10dp"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/colorPrimary"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+
+        <Button
+            android:id="@+id/outButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="current login"/>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="100dp"
+            android:text="EXIT"/>
 
-    </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayoutNewLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+</android.support.v4.widget.NestedScrollView>
 
-        <EditText
-            android:id="@+id/editTextNewLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="new login"/>
+    <!--<android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayoutLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:id="@+id/editTextChangeLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="current login"/>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayoutPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+            </android.support.design.widget.TextInputLayout>
 
-        <EditText
-            android:id="@+id/editTextChangePassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="current password"/>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayoutNewLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:id="@+id/editTextNewLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="new login"/>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayoutNewPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            </android.support.design.widget.TextInputLayout>
 
-        <EditText
-            android:id="@+id/editTextNewPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="new password"/>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayoutPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
 
-    </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:id="@+id/editTextChangePassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="current password"/>
 
-    <Button
-        android:id="@+id/changeButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Change"/>
+            </android.support.design.widget.TextInputLayout>
 
-    <Button
-        android:id="@+id/outButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="100dp"
-        android:text="EXIT"/>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayoutNewPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-</LinearLayout>
+                <EditText
+                    android:id="@+id/editTextNewPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="new password"/>
+
+            </android.support.design.widget.TextInputLayout>-->

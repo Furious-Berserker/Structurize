@@ -46,13 +46,14 @@ public class SettingsActivity extends AppCompatActivity {
         initToolBar();
         initFloatingActionButton();
         initButton();
-        initTextInputLayout();
+        //initTextInputLayout();
         initEditText();
         initCircleImageView();
     }
 
     private void initCircleImageView() {
         userImage = findViewById(R.id.content_settings_profile_image);
+        Picasso.with(this).load(UserData.getUserImage()).error(R.drawable.ic_launcher_background).resize(100,100).into(userImage);
         userImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,16 +69,16 @@ public class SettingsActivity extends AppCompatActivity {
         isPasswordIncorrect = true;
     }
 
-    private void initTextInputLayout() {
+    /*private void initTextInputLayout() {
         textInputLayoutLogin = findViewById(R.id.textInputLayoutLogin);
         textInputLayoutNewLogin = findViewById(R.id.textInputLayoutNewLogin);
 
         textInputLayoutPassword = findViewById(R.id.textInputLayoutPassword);
         textInputLayoutNewPassword = findViewById(R.id.textInputLayoutNewPassword);
-    }
+    }*/
 
     private void initEditText() {
-        editTextLogin = findViewById(R.id.editTextChangeLogin);
+        /*editTextLogin = findViewById(R.id.editTextChangeLogin);
         editTextLogin.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -171,7 +172,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
     }
-
+*/
+    }
     private void initButton() {
         exitButton = findViewById(R.id.outButton);
         exitButton.setOnClickListener(new View.OnClickListener() {
@@ -246,7 +248,7 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Picasso.with(SettingsActivity.this).load(uri).resize(80, 80).into(userImage);
+                            Picasso.with(SettingsActivity.this).load(uri).resize(100, 100).into(userImage);
                         }
                         else
                             Toast.makeText(SettingsActivity.this, "Failed", Toast.LENGTH_SHORT).show();
