@@ -26,6 +26,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
                     <de.hdodenhof.circleimageview.CircleImageView
                         xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/content_settings_profile_image"
@@ -39,36 +40,132 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginTop="55dp">
+                        android:layout_marginTop="50dp">
+
                         <TextView
+                            android:id="@+id/userLogin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:textColor="@color/cardview_dark_background"
+                            android:text="@string/app_name"/>
+
+                        <TextView
+                            android:id="@+id/userEmail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/app_name"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/app_name"/>
                     </LinearLayout>
+
                 </LinearLayout>
 
                 <Button
                     android:id="@+id/changeButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/ButtonTheme"
-                    android:text="Change"
+                    android:text="Edit information"
                     android:gravity="start|center_vertical"
-                    android:paddingLeft="10dp"
+                    android:paddingLeft="15dp"
                     android:textAllCaps="true"
                     android:textColor="?attr/colorPrimary"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    style="@style/ButtonTheme"/>
 
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dp"
+                    android:text="Settings"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorPrimary"
+                    style="@style/Base.TextAppearance.AppCompat.Small"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:gravity="start|center_vertical"
+                    android:drawableLeft="@drawable/ic_format_list_bulleted"
+                    android:text="Common"
+                    style="@style/ButtonTheme"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:gravity="start|center_vertical"
+                    android:drawableLeft="@drawable/ic_bell"
+                    android:text="Notification"
+                    style="@style/ButtonTheme"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:gravity="start|center_vertical"
+                    android:drawableLeft="@drawable/ic_sync"
+                    android:text="Reset"
+                    style="@style/ButtonTheme"/>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dp"
+                    android:text="About"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorPrimary"
+                    style="@style/Base.TextAppearance.AppCompat.Small" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:gravity="start|center_vertical"
+                    android:drawableLeft="@drawable/ic_account_box"
+                    android:text="About us"
+                    style="@style/ButtonTheme"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:gravity="start|center_vertical"
+                    android:drawableLeft="@drawable/ic_email_open"
+                    android:text="Write author"
+                    style="@style/ButtonTheme"/>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
 
         <Button
             android:id="@+id/outButton"

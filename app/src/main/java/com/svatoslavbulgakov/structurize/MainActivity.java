@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void setImage(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        Uri photoUrl = user.getPhotoUrl();
+        final Uri photoUrl = user.getPhotoUrl();
         Picasso.with(this).load(photoUrl).into(imageViewUser);
         if (photoUrl != null) {
             Picasso.Builder builder = new Picasso.Builder(this);
@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     exception.printStackTrace();
                     Toast.makeText(MainActivity.this, exception.getMessage(), Toast.LENGTH_LONG).show();
                     Log.d("================ds", "onImageLoadFailed: "+exception.getMessage());
+                    Log.d("+++++++++++Error+++:", photoUrl.toString());
                 }
             });
             builder.build().load(photoUrl).resize(100, 100).error(R.drawable.geometry_header_1).into(imageViewUser);

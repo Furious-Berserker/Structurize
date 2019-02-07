@@ -11,9 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,6 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
     private CircleImageView userImage;
     private boolean isEmailIncorrect, isPasswordIncorrect;
     private TextInputLayout textInputLayoutLogin, textInputLayoutNewLogin, textInputLayoutPassword,  textInputLayoutNewPassword;
+    private TextView userLogin, userEmail;
     private Button exitButton, changeButton;
 
     @Override
@@ -45,10 +48,18 @@ public class SettingsActivity extends AppCompatActivity {
         initBoolean();
         initToolBar();
         initFloatingActionButton();
+        initTextView();
         initButton();
         //initTextInputLayout();
         initEditText();
         initCircleImageView();
+    }
+
+    private void initTextView() {
+        userLogin = findViewById(R.id.userLogin);
+        userLogin.setText(UserData.getUserName());
+        userEmail = findViewById(R.id.userEmail);
+        userEmail.setText(UserData.getUserEmail());
     }
 
     private void initCircleImageView() {
@@ -241,7 +252,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK){
             if (requestCode == REQUEST_AVATAR){
                 final Uri uri = data.getData();
-
+                Log.d("#############URI#####: ",uri.toString());
                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 UserProfileChangeRequest photoProfileChange = new UserProfileChangeRequest.Builder().setPhotoUri(uri).build();
                 user.updateProfile(photoProfileChange).addOnCompleteListener(new OnCompleteListener<Void>() {
