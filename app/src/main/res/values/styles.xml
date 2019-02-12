@@ -30,4 +30,10 @@
     <style name="ButtonTheme" parent="android:Widget.Button">
         <item name="android:background">@drawable/button_theme_transparent</item>
     </style>
+
+    <style name="AppTheme.TransparentTheme">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
 </resources>
