@@ -30,10 +30,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class SettingsActivity extends AppCompatActivity {
     public static final int REQUEST_AVATAR = 1;
 
-    private EditText editTextLogin, editTextNewLogin, editTextPassword, editTextNewPassword;
     private CircleImageView userImage;
-    private boolean isEmailIncorrect, isPasswordIncorrect;
-    private TextInputLayout textInputLayoutLogin, textInputLayoutNewLogin, textInputLayoutPassword,  textInputLayoutNewPassword;
     private TextView userLogin, userEmail;
     private Button exitButton, changeButton;
 
@@ -45,13 +42,9 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void initComponents() {
-        initBoolean();
         initToolBar();
-        initFloatingActionButton();
         initTextView();
         initButton();
-        //initTextInputLayout();
-        initEditText();
         initCircleImageView();
     }
 
@@ -75,116 +68,6 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
-    private void initBoolean() {
-        isEmailIncorrect = true;
-        isPasswordIncorrect = true;
-    }
-
-    /*private void initTextInputLayout() {
-        textInputLayoutLogin = findViewById(R.id.textInputLayoutLogin);
-        textInputLayoutNewLogin = findViewById(R.id.textInputLayoutNewLogin);
-
-        textInputLayoutPassword = findViewById(R.id.textInputLayoutPassword);
-        textInputLayoutNewPassword = findViewById(R.id.textInputLayoutNewPassword);
-    }*/
-
-    private void initEditText() {
-        /*editTextLogin = findViewById(R.id.editTextChangeLogin);
-        editTextLogin.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (TextUtils.emailChecker(editTextLogin.getText().toString())){
-                    isEmailIncorrect = false;
-                    textInputLayoutLogin.setErrorEnabled(false);
-                } else {
-                    if (editTextLogin.getText().toString().isEmpty()){
-                        isEmailIncorrect = true;
-                        textInputLayoutLogin.setErrorEnabled(false);
-                        return;
-                    }
-                    isEmailIncorrect = true;
-                    textInputLayoutLogin.setError("incorrect email");
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        editTextNewLogin = findViewById(R.id.editTextNewLogin);
-        editTextNewLogin.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        editTextPassword = findViewById(R.id.editTextChangePassword);
-        editTextPassword.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (TextUtils.passwordChecker(editTextPassword.getText().toString(), 6)){
-                    isPasswordIncorrect = false;
-                    textInputLayoutPassword.setErrorEnabled(false);
-                } else {
-                    if (editTextPassword.getText().toString().isEmpty()){
-                        isPasswordIncorrect = true;
-                        textInputLayoutPassword.setErrorEnabled(false);
-                        return;
-                    }
-                    isPasswordIncorrect = true;
-                    textInputLayoutPassword.setError("incorrect password");
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        editTextNewPassword = findViewById(R.id.editTextNewPassword);
-        editTextNewPassword.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-    }
-*/
-    }
     private void initButton() {
         exitButton = findViewById(R.id.outButton);
         exitButton.setOnClickListener(new View.OnClickListener() {
@@ -202,41 +85,7 @@ public class SettingsActivity extends AppCompatActivity {
         changeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                if (!isEmailIncorrect && !isPasswordIncorrect){
-                    String email = editTextLogin.getText().toString();
 
-                    final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-                    user.updateEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful())
-                                Toast.makeText(SettingsActivity.this, "Email changed! Current email: " + user.getEmail(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    String password = editTextPassword.getText().toString();
-
-                    user.updatePassword(password).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful())
-                                Toast.makeText(SettingsActivity.this, "password changed", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } else
-                    Toast.makeText(SettingsActivity.this, "incorrect data!", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void initFloatingActionButton() {
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
             }
         });
     }
@@ -252,7 +101,6 @@ public class SettingsActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK){
             if (requestCode == REQUEST_AVATAR){
                 final Uri uri = data.getData();
-                Log.d("#############URI#####: ",uri.toString());
                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 UserProfileChangeRequest photoProfileChange = new UserProfileChangeRequest.Builder().setPhotoUri(uri).build();
                 user.updateProfile(photoProfileChange).addOnCompleteListener(new OnCompleteListener<Void>() {
