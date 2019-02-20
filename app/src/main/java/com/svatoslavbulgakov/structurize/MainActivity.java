@@ -16,11 +16,14 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
@@ -30,7 +33,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import model.Task;
+import util.DataBaseHandler;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public static final int PERMISION_REQUEST_EXTERNAL_STORAGE = 1;
@@ -39,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private CircleImageView imageViewUser;
     private TextView textViewEmail;
     private TextView textViewName;
+    private DataBaseHandler dataBaseHandler;
+    private Toolbar toolbar;
+    private ArrayList<Task> tasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,15 +58,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void initComponents() {
-        Toolbar toolbar = initToolBar();
+        initDatabase();
+        initToolBar();
         initFloatingActionButton();
-        initDrawer(toolbar);
+        initDrawer();
         initButton();
         initNavigationView();
+        initRecyclerView();
+    }
+
+    private void initDatabase() {
+        dataBaseHandler = new DataBaseHandler();
+        tasks = dataBaseHandler.getAllTasks();
+    }
+
+    private void initRecyclerView() {
+        RecyclerView recyclerView = findViewById(R.id.content_main_recycler_view);
+        TaskAdapter adapter = new TaskAdapter(this, this.tasks);
+        recyclerView.setAdapter(adapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
     }
 
     private void initButton() {
-        exitButton = findViewById(R.id.exitButton);
+        /*exitButton = findViewById(R.id.exitButton);
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 finish();
             }
-        });
+        });*/
     }
 
     private void initNavigationView() {
@@ -121,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void initDrawer(Toolbar toolbar) {
+    private void initDrawer() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -156,21 +181,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
