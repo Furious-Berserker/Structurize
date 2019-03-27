@@ -1,4 +1,4 @@
-package model;
+package com.svatoslavbulgakov.structurize.model;
 
 public class Task {
     private int id;

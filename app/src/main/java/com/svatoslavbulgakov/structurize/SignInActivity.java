@@ -64,7 +64,7 @@ public class SignInActivity extends AppCompatActivity {
                 String login = editTextLogin.getText().toString();
                 String password = editTextPassword.getText().toString();
 
-                if (!(login.equals("") && password.equals(""))) {
+                if (TextUtils.emailChecker(login) && TextUtils.passwordChecker(password, 6)) {
                     signInUser(login, password);
                 } else
                     Toasty.error(SignInActivity.this, "Incorrect Login or password!").show();
@@ -89,7 +89,8 @@ public class SignInActivity extends AppCompatActivity {
                     startActivity(intent);
 
                     finish();
-                }
+                } else
+                    Toasty.error(SignInActivity.this, "Incorrect Login or password!").show();
             }
         });
     }

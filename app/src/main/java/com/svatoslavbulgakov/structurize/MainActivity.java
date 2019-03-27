@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -20,27 +19,31 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import model.Task;
-import util.DataBaseHandler;
+import com.svatoslavbulgakov.structurize.model.Task;
+import com.svatoslavbulgakov.structurize.util.DataBaseHandler;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public static final int PERMISION_REQUEST_EXTERNAL_STORAGE = 1;
+
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
 
     private Button exitButton;
     private CircleImageView imageViewUser;
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void initComponents() {
+        initFireBaseStorageComponents();
         initDatabase();
         initToolBar();
         initFloatingActionButton();
@@ -65,6 +69,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         initButton();
         initNavigationView();
         initRecyclerView();
+    }
+
+    private void initFireBaseStorageComponents() {
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
     }
 
     private void initDatabase() {
@@ -119,8 +128,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
         textViewName.setText(UserData.getUserName());
         textViewEmail.setText(UserData.getUserEmail());
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        Log.d("USER_IMAGE", "initNavigationView: " + user.getPhotoUrl());
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             setImage();
@@ -128,22 +135,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void setImage(){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        final Uri photoUrl = user.getPhotoUrl();
-        Picasso.with(this).load(photoUrl).into(imageViewUser);
-        if (photoUrl != null) {
-            Picasso.Builder builder = new Picasso.Builder(this);
-            builder.listener(new Picasso.Listener() {
-                @Override
-                public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
-                    exception.printStackTrace();
-                    Toast.makeText(MainActivity.this, exception.getMessage(), Toast.LENGTH_LONG).show();
-                    Log.d("================ds", "onImageLoadFailed: "+exception.getMessage());
-                    Log.d("+++++++++++Error+++:", photoUrl.toString());
-                }
-            });
-            builder.build().load(photoUrl).resize(100, 100).error(R.drawable.geometry_header_1).into(imageViewUser);
-        }
+            storage = FirebaseStorage.getInstance();
+            storageReference = storage.getReferenceFromUrl("gs://structurize-b3c41.appspot.com/" + UserData.getUserEmail());
+
+            try {
+                final File localFile = File.createTempFile("images", "jpg");
+                storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        Picasso.with(MainActivity.this).load(String.valueOf(localFile.toURI())).into(imageViewUser);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Toast.makeText(MainActivity.this, "Failed download", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } catch (Exception e){
+                Log.wtf("exception", "error");
+            }
     }
 
     private void initDrawer() {
@@ -209,4 +219,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "There is no permission!", Toast.LENGTH_SHORT).show();
         }
     }
+
 }

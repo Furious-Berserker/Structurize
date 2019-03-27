@@ -33,7 +33,7 @@
                         android:layout_width="76dp"
                         android:layout_height="76dp"
                         android:layout_margin="15dp"
-                        android:src="@drawable/ic_launcher_background"
+                        android:src="@drawable/round_account_image"
                         app:civ_border_color="#FF000000"/>
 
                     <LinearLayout

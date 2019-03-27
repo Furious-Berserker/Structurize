@@ -1,37 +1,43 @@
 package com.svatoslavbulgakov.structurize;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import java.util.UUID;
+import java.io.File;
+import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SettingsActivity extends AppCompatActivity {
     public static final int REQUEST_AVATAR = 1;
 
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
+
+    private Uri imagePath;
     private CircleImageView userImage;
     private TextView userLogin, userEmail;
     private Button exitButton, changeButton;
@@ -44,11 +50,18 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void initComponents() {
+        initFireBaseComponents();
         initToolBar();
         initTextView();
         initButton();
         initCircleImageView();
     }
+
+    private void initFireBaseComponents() {
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+    }
+
 
     private void initTextView() {
         userLogin = findViewById(R.id.userLogin);
@@ -59,7 +72,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void initCircleImageView() {
         userImage = findViewById(R.id.content_settings_profile_image);
-        Picasso.with(this).load(UserData.getUserImage()).error(R.drawable.ic_launcher_background).resize(100,100).into(userImage);
+        downloadImage();
         userImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,20 +115,69 @@ public class SettingsActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK){
             if (requestCode == REQUEST_AVATAR){
-                final Uri uri = data.getData();
-                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                UserProfileChangeRequest photoProfileChange = new UserProfileChangeRequest.Builder().setPhotoUri(uri).build();
-                user.updateProfile(photoProfileChange).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Picasso.with(SettingsActivity.this).load(uri).resize(100, 100).into(userImage);
-                        }
-                        else
-                            Toast.makeText(SettingsActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                imagePath = data.getData();
+                uploadImage();
             }
         }
     }
+
+    private void uploadImage() {
+        if(imagePath != null)
+        {
+            StorageReference ref = storage.getReferenceFromUrl("gs://structurize-b3c41.appspot.com/" + UserData.getUserEmail());
+            ref.putFile(imagePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            downloadImage();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(SettingsActivity.this, "Failed upload", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+
+    private void downloadImage(){
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReferenceFromUrl("gs://structurize-b3c41.appspot.com/" + UserData.getUserEmail());
+
+        try {
+            final File localFile = File.createTempFile("images", "jpg");
+            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Picasso.with(SettingsActivity.this).load(String.valueOf(localFile.toURI())).into(userImage);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    Toast.makeText(SettingsActivity.this, "Failed download", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e){
+            Log.wtf("exception", "error");
+        }
+    }
+
+    /*public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            return true;
+        }
+        return false;
+    }*/
+
 }

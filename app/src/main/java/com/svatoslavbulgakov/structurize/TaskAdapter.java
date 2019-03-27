@@ -9,12 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
-import model.Task;
-import util.DataBaseHandler;
+import com.svatoslavbulgakov.structurize.model.Task;
+import com.svatoslavbulgakov.structurize.util.DataBaseHandler;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     private Context context;
